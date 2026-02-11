@@ -15,12 +15,13 @@ body {
     align-items: center;
     height: 100vh;
     text-align: center;
-    overflow: hidden;
+    overflow-x: hidden;
     transition: background-color 1s ease;
 }
 
 .container {
     max-width: 800px;
+    padding: 10px;
 }
 
 h1 {
@@ -85,6 +86,10 @@ button {
     font-family: 'Brush Script MT', cursive, sans-serif;
 }
 
+.celebration p {
+    margin: 10px 0;
+}
+
 #songInfo {
     position: fixed;
     bottom: 10px;
@@ -98,16 +103,28 @@ button {
 
 #audioPlayer {
     position: fixed;
-    bottom: 50px;
+    bottom: 10px;
     right: 10px;
-    width: 200px;
+    width: 150px;
+    height: 50px;
+    opacity: 0.8;
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+@media(max-width: 500px){
+    h1 { font-size: 1.5em; }
+    #message { font-size: 1em; }
+    button { font-size: 1em; padding: 10px 20px; }
+    .celebration { font-size: 1.5em; padding: 10px; }
+    #audioPlayer { width: 120px; height: 40px; }
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>so this is my answer Jeremy :)</h1>
+    <h1>so this is my answer Jeremy...</h1>
     <div id="message"></div>
     <div class="buttons" id="buttons">
         <button id="yesBtn">YES</button>
@@ -119,18 +136,18 @@ button {
     <div id="finalMessage"></div>
 </div>
 
-<div id="songInfo">The 1975: Falling for You 2:55</div>
+<div id="songInfo">The 1975: Falling for You 2:55 I don't want to be your friend, I want to kiss your neck</div>
 
-<!-- YouTube player autoplay dari menit 2:40 -->
+<!-- YouTube mini player autoplay dari 2:38 -->
 <iframe id="audioPlayer" type="text/html"
-src="https://www.youtube.com/embed/cKhbfG55hus?autoplay=1&start=160&loop=1&playlist=cKhbfG55hus"
+src="https://www.youtube.com/embed/cKhbfG55hus?autoplay=1&start=158&loop=1&playlist=cKhbfG55hus"
 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 <script>
 // Messages sequence awal
 const messages = [
     "hi Jeremy",
-    "finally hari ini dateng juga yaa",
+    "finally hari ini dateng juga yaaa",
     "the day that you were patiently waiting for",
     "I just want to say thank you for your patience",
     "I really appreciate you",
