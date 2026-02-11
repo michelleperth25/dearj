@@ -11,16 +11,15 @@ body {
     font-family: 'Comic Sans MS', cursive, sans-serif;
     background-color: white;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
     text-align: center;
-    overflow: hidden;
     transition: background-color 1s ease;
 }
 
 .container {
     max-width: 800px;
+    padding: 10px;
 }
 
 h1 {
@@ -79,16 +78,19 @@ button {
     flex-direction: column;
     background: #ffd6e8;
     color: #ff1493;
-    font-size: 2em; /* font lebih besar */
+    font-size: 2em; /* ini bisa diubah lagi */
     padding: 20px;
     box-sizing: border-box;
     font-family: 'Brush Script MT', cursive, sans-serif;
 }
 
+#finalMessage p {
+    font-size: 9px; /* font final message 9px */
+    margin: 5px 0;
+}
+
 #songInfo {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
+    margin-top: 20px;
     font-size: 0.9em;
     color: #333;
     background: rgba(255,255,255,0.8);
@@ -96,11 +98,17 @@ button {
     border-radius: 10px;
 }
 
-#audioPlayer {
-    position: fixed;
-    bottom: 50px;
-    right: 10px;
-    width: 200px;
+iframe {
+    width: 560px;
+    height: 315px;
+    margin-top: 20px;
+}
+
+@media(max-width: 600px){
+    iframe { width: 90%; height: 200px; }
+    h1 { font-size: 1.5em; }
+    #message { font-size: 1em; }
+    button { font-size: 1em; padding: 10px 20px; }
 }
 </style>
 </head>
@@ -121,16 +129,16 @@ button {
 
 <div id="songInfo">The 1975: Falling for You 2:55 I don't want to be your friend, I want to kiss your neck</div>
 
-<!-- YouTube player autoplay dari menit 2:40 -->
+<!-- YouTube embed, autoplay dari 2:33 -->
 <iframe id="audioPlayer" type="text/html"
-src="https://www.youtube.com/embed/cKhbfG55hus?autoplay=1&start=160&loop=1&playlist=cKhbfG55hus"
+src="https://www.youtube.com/embed/cKhbfG55hus?autoplay=1&start=153&loop=1&playlist=cKhbfG55hus"
 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 <script>
 // Messages sequence awal
 const messages = [
     "hi Jeremy",
-    "finally hari ini dateng juga yaa",
+    "finally hari ini dateng juga yeah",
     "the day that you were patiently waiting for",
     "I just want to say thank you for your patience",
     "I really appreciate you",
@@ -153,7 +161,6 @@ function showNextMessage() {
             setTimeout(showNextMessage, 2500);
         }, 500);
     } else {
-        // Show buttons after last message
         buttonsDiv.style.display = "block";
     }
 }
@@ -212,10 +219,9 @@ function displayFinalSentences(sentences, i){
     if(i < sentences.length){
         const p = document.createElement("p");
         p.textContent = sentences[i];
-        p.style.fontSize = "12px";  // <-- ini font lebih kecil
+        p.style.fontSize = "9px";
         finalMessage.appendChild(p);
         setTimeout(()=> displayFinalSentences(sentences, i+1), 2000);
-
     }
 }
 
