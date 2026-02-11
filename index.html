@@ -212,8 +212,10 @@ function displayFinalSentences(sentences, i){
     if(i < sentences.length){
         const p = document.createElement("p");
         p.textContent = sentences[i];
+        p.style.fontSize = "12px";  // <-- ini font lebih kecil
         finalMessage.appendChild(p);
         setTimeout(()=> displayFinalSentences(sentences, i+1), 2000);
+
     }
 }
 
