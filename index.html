@@ -80,14 +80,15 @@ button {
     flex-direction: column;
     background: #ffd6e8;
     color: #ff1493;
-    font-size: 2em; /* font lebih besar */
+    font-size: 2em;
     padding: 20px;
     box-sizing: border-box;
     font-family: 'Brush Script MT', cursive, sans-serif;
 }
 
-.celebration p {
-    margin: 10px 0;
+#finalMessage {
+    position: relative;
+    min-height: 100px;
 }
 
 #songInfo {
@@ -147,7 +148,7 @@ frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 // Messages sequence awal
 const messages = [
     "hi Jeremy",
-    "finally hari ini dateng juga yaaa",
+    "finally hari ini dateng juga yeah",
     "the day that you were patiently waiting for",
     "I just want to say thank you for your patience",
     "I really appreciate you",
@@ -170,7 +171,6 @@ function showNextMessage() {
             setTimeout(showNextMessage, 2500);
         }, 500);
     } else {
-        // Show buttons after last message
         buttonsDiv.style.display = "block";
     }
 }
@@ -220,17 +220,24 @@ yesBtn.addEventListener("click", function() {
         "p.s. there's no turning back, no refund, man you are stuck with me til death do us apart :P"
     ];
 
-    displayFinalSentences(finalSentences, 0);
+    displayFinalSentencesFade(finalSentences, 0);
     launchConfetti();
 });
 
-// Tampilkan kalimat per kalimat dengan delay
-function displayFinalSentences(sentences, i){
+// Tampilkan kalimat per kalimat dengan fade in/out
+function displayFinalSentencesFade(sentences, i){
     if(i < sentences.length){
+        finalMessage.textContent = "";
         const p = document.createElement("p");
         p.textContent = sentences[i];
+        p.style.opacity = 0;
+        p.style.transition = "opacity 1s";
         finalMessage.appendChild(p);
-        setTimeout(()=> displayFinalSentences(sentences, i+1), 2000);
+        setTimeout(()=> p.style.opacity = 1, 100); // fade in
+        setTimeout(()=>{
+            p.style.opacity = 0; // fade out
+            setTimeout(()=> displayFinalSentencesFade(sentences, i+1), 1200);
+        }, 2000);
     }
 }
 
