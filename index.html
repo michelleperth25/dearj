@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>so this is my answer Jeremy...</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    transition: background-color 1s ease;
+}
+
+.container {
+    max-width: 800px;
+}
+
+h1 {
+    font-size: 2em;
+    color: black;
+    margin-bottom: 20px;
+}
+
+#message {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    min-height: 80px;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.buttons {
+    margin-top: 20px;
+    display: none;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.2s;
+}
+
+#yesBtn {
+    background-color: #ff4da6;
+    color: white;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+}
+
+#noBtn {
+    background-color: white;
+    color: #ff4da6;
+    position: absolute;
+}
+
+.celebration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #ffd6e8;
+    color: #ff1493;
+    font-size: 2em; /* font lebih besar */
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Brush Script MT', cursive, sans-serif;
+}
+
+#songInfo {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.9em;
+    color: #333;
+    background: rgba(255,255,255,0.8);
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+#audioPlayer {
+    position: fixed;
+    bottom: 50px;
+    right: 10px;
+    width: 200px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>so this is my answer Jeremy :)</h1>
+    <div id="message"></div>
+    <div class="buttons" id="buttons">
+        <button id="yesBtn">YES</button>
+        <button id="noBtn">NO</button>
+    </div>
+</div>
+
+<div class="celebration" id="celebration">
+    <div id="finalMessage"></div>
+</div>
+
+<div id="songInfo">The 1975: Falling for You 2:55 I don't want to be your friend, I want to kiss your neck</div>
+
+<!-- YouTube player autoplay dari menit 2:40 -->
+<iframe id="audioPlayer" type="text/html"
+src="https://www.youtube.com/embed/cKhbfG55hus?autoplay=1&start=160&loop=1&playlist=cKhbfG55hus"
+frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+<script>
+// Messages sequence awal
+const messages = [
+    "hi Jeremy",
+    "finally hari ini dateng juga yaa",
+    "the day that you were patiently waiting for",
+    "I just want to say thank you for your patience",
+    "I really appreciate you",
+    "I want to say thank you for everything, but especially, thank you for coming into my life",
+    "Thank you for giving me time.. thank you for not leaving me alone.. thank you for being you",
+    "Jeremy, do you want to know my answer?"
+];
+
+let msgIndex = 0;
+const messageDiv = document.getElementById("message");
+const buttonsDiv = document.getElementById("buttons");
+
+function showNextMessage() {
+    if(msgIndex < messages.length){
+        messageDiv.style.opacity = 0;
+        setTimeout(() => {
+            messageDiv.textContent = messages[msgIndex];
+            messageDiv.style.opacity = 1;
+            msgIndex++;
+            setTimeout(showNextMessage, 2500);
+        }, 500);
+    } else {
+        // Show buttons after last message
+        buttonsDiv.style.display = "block";
+    }
+}
+
+showNextMessage();
+
+// NO button lebih liar
+const noBtn = document.getElementById("noBtn");
+
+function moveButton() {
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+document.addEventListener("mousemove", function(e) {
+    const rect = noBtn.getBoundingClientRect();
+    const btnCenterX = rect.left + rect.width / 2;
+    const btnCenterY = rect.top + rect.height / 2;
+    const distance = Math.sqrt(
+        Math.pow(e.clientX - btnCenterX, 2) +
+        Math.pow(e.clientY - btnCenterY, 2)
+    );
+    if(distance < 200) moveButton();
+});
+
+noBtn.addEventListener("mouseenter", moveButton);
+
+// YES button confetti & final message
+const yesBtn = document.getElementById("yesBtn");
+const celebration = document.getElementById("celebration");
+const finalMessage = document.getElementById("finalMessage");
+
+yesBtn.addEventListener("click", function() {
+    document.body.style.backgroundColor = "#ffd6e8";
+    buttonsDiv.style.display = "none";
+    celebration.style.display = "flex";
+
+    const finalSentences = [
+        "okay",
+        "forever has begun now",
+        "you officially have a girlfriend",
+        "and her name is Michelle Angelia",
+        "p.s. there's no turning back, no refund, man you are stuck with me til death do us apart :P"
+    ];
+
+    displayFinalSentences(finalSentences, 0);
+    launchConfetti();
+});
+
+// Tampilkan kalimat per kalimat dengan delay
+function displayFinalSentences(sentences, i){
+    if(i < sentences.length){
+        const p = document.createElement("p");
+        p.textContent = sentences[i];
+        finalMessage.appendChild(p);
+        setTimeout(()=> displayFinalSentences(sentences, i+1), 2000);
+    }
+}
+
+// Confetti
+function launchConfetti() {
+    for(let i=0;i<200;i++){
+        const confetti = document.createElement("div");
+        confetti.style.position = "fixed";
+        confetti.style.width = "8px";
+        confetti.style.height = "8px";
+        confetti.style.backgroundColor = randomColor();
+        confetti.style.left = Math.random()*window.innerWidth + "px";
+        confetti.style.top = "-10px";
+        confetti.style.opacity = 0.9;
+        confetti.style.borderRadius = "50%";
+        confetti.style.zIndex = 9999;
+        document.body.appendChild(confetti);
+        const fall = confetti.animate([
+            {transform: "translateY(0px) rotate(0deg)"},
+            {transform: "translateY(" + window.innerHeight + "px) rotate(" + (Math.random()*360) + "deg)"}
+        ], {
+            duration: 2000 + Math.random()*2000,
+            easing: "linear"
+        });
+        fall.onfinish = ()=> confetti.remove();
+    }
+}
+
+function randomColor() {
+    const colors = ["#ff4da6","#ffb6c1","#fff0f5","#ff66cc"];
+    return colors[Math.floor(Math.random()*colors.length)];
+}
+</script>
+
+</body>
+</html>
