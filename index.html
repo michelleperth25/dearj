@@ -15,13 +15,12 @@ body {
     align-items: center;
     height: 100vh;
     text-align: center;
-    overflow-x: hidden;
+    overflow: hidden;
     transition: background-color 1s ease;
 }
 
 .container {
     max-width: 800px;
-    padding: 10px;
 }
 
 h1 {
@@ -80,15 +79,10 @@ button {
     flex-direction: column;
     background: #ffd6e8;
     color: #ff1493;
-    font-size: 2em;
+    font-size: 2em; /* font lebih besar */
     padding: 20px;
     box-sizing: border-box;
     font-family: 'Brush Script MT', cursive, sans-serif;
-}
-
-#finalMessage {
-    position: relative;
-    min-height: 100px;
 }
 
 #songInfo {
@@ -104,21 +98,9 @@ button {
 
 #audioPlayer {
     position: fixed;
-    bottom: 10px;
+    bottom: 50px;
     right: 10px;
-    width: 150px;
-    height: 50px;
-    opacity: 0.8;
-    border-radius: 10px;
-    z-index: 1000;
-}
-
-@media(max-width: 500px){
-    h1 { font-size: 1.5em; }
-    #message { font-size: 1em; }
-    button { font-size: 1em; padding: 10px 20px; }
-    .celebration { font-size: 1.5em; padding: 10px; }
-    #audioPlayer { width: 120px; height: 40px; }
+    width: 200px;
 }
 </style>
 </head>
@@ -137,11 +119,11 @@ button {
     <div id="finalMessage"></div>
 </div>
 
-<div id="songInfo">The 1975: Falling for You 2:55 I don't want to be your friend, I want to kiss your neck</div>
+<div id="songInfo">The 1975: Falling for You 2:55</div>
 
-<!-- YouTube mini player autoplay dari 2:38 -->
+<!-- YouTube player autoplay dari menit 2:40 -->
 <iframe id="audioPlayer" type="text/html"
-src="https://www.youtube.com/embed/cKhbfG55hus?autoplay=1&start=158&loop=1&playlist=cKhbfG55hus"
+src="https://www.youtube.com/embed/cKhbfG55hus?autoplay=1&start=160&loop=1&playlist=cKhbfG55hus"
 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 <script>
@@ -171,6 +153,7 @@ function showNextMessage() {
             setTimeout(showNextMessage, 2500);
         }, 500);
     } else {
+        // Show buttons after last message
         buttonsDiv.style.display = "block";
     }
 }
@@ -220,24 +203,17 @@ yesBtn.addEventListener("click", function() {
         "p.s. there's no turning back, no refund, man you are stuck with me til death do us apart :P"
     ];
 
-    displayFinalSentencesFade(finalSentences, 0);
+    displayFinalSentences(finalSentences, 0);
     launchConfetti();
 });
 
-// Tampilkan kalimat per kalimat dengan fade in/out
-function displayFinalSentencesFade(sentences, i){
+// Tampilkan kalimat per kalimat dengan delay
+function displayFinalSentences(sentences, i){
     if(i < sentences.length){
-        finalMessage.textContent = "";
         const p = document.createElement("p");
         p.textContent = sentences[i];
-        p.style.opacity = 0;
-        p.style.transition = "opacity 1s";
         finalMessage.appendChild(p);
-        setTimeout(()=> p.style.opacity = 1, 100); // fade in
-        setTimeout(()=>{
-            p.style.opacity = 0; // fade out
-            setTimeout(()=> displayFinalSentencesFade(sentences, i+1), 1200);
-        }, 2000);
+        setTimeout(()=> displayFinalSentences(sentences, i+1), 2000);
     }
 }
 
