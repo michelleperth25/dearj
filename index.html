@@ -80,15 +80,14 @@ button {
     flex-direction: column;
     background: #ffd6e8;
     color: #ff1493;
-    font-size: 2em;
+    font-size: 2em; /* font lebih besar */
     padding: 20px;
     box-sizing: border-box;
     font-family: 'Brush Script MT', cursive, sans-serif;
 }
 
-#finalMessage {
-    position: relative;
-    min-height: 100px;
+.celebration p {
+    margin: 10px 0;
 }
 
 #songInfo {
@@ -171,6 +170,7 @@ function showNextMessage() {
             setTimeout(showNextMessage, 2500);
         }, 500);
     } else {
+        // Show buttons after last message
         buttonsDiv.style.display = "block";
     }
 }
@@ -220,24 +220,17 @@ yesBtn.addEventListener("click", function() {
         "p.s. there's no turning back, no refund, man you are stuck with me til death do us apart :P"
     ];
 
-    displayFinalSentencesFade(finalSentences, 0);
+    displayFinalSentences(finalSentences, 0);
     launchConfetti();
 });
 
-// Tampilkan kalimat per kalimat dengan fade in/out
-function displayFinalSentencesFade(sentences, i){
+// Tampilkan kalimat per kalimat dengan delay
+function displayFinalSentences(sentences, i){
     if(i < sentences.length){
-        finalMessage.textContent = "";
         const p = document.createElement("p");
         p.textContent = sentences[i];
-        p.style.opacity = 0;
-        p.style.transition = "opacity 1s";
         finalMessage.appendChild(p);
-        setTimeout(()=> p.style.opacity = 1, 100); // fade in
-        setTimeout(()=>{
-            p.style.opacity = 0; // fade out
-            setTimeout(()=> displayFinalSentencesFade(sentences, i+1), 1200);
-        }, 2000);
+        setTimeout(()=> displayFinalSentences(sentences, i+1), 2000);
     }
 }
 
